@@ -6,10 +6,11 @@ pkgver=2.5
 pkgrel=1
 pkgdesc="Physically correct, unbiased rendering engine (binary version)."
 arch=('x86_64')
-url="https://luxcorerender.org"
+url="https://luxcorerender.org/"
 license=('Apache')
-#Dependencies cheched through "ldd ./luxcoreui"
-depends=(libx11 libxinerama libxrandr)
+#Dependencies checked through "ldd ./luxcoreui", after removing packages which are dependances of other packages in list
+#Maybe there are still redundancies
+depends=(dbus embree gtk3 libcap libglvnd libxxf86vm)
 optdepends=('opencl-driver: for OPENCL gpu acceleration'
             'pyside2: for pyluxcoretools gui')
 provides=(luxcorerender)
