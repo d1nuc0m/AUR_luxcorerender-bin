@@ -8,7 +8,7 @@ pkgdesc="Physically correct, unbiased rendering engine (binary version)."
 arch=('x86_64')
 url="https://luxcorerender.org/"
 license=('Apache')
-# Dependencies checked through "ldd ./luxcoreui", after redundancies removal and namcap
+# Dependencies checked through "ldd ./luxcoreui", filtered with namcap
 # openimagedenoise limited because of "libOpenImageDenoise.so.0"
 # python3 because of pyluxcore
 depends=(embree gtk3 "openimagedenoise<=1.2.4" "python>=3.0")
@@ -32,20 +32,33 @@ package() {
   # Directories
   install -d "${pkgdir}/usr/bin"
   install -d "${pkgdir}/usr/lib"
+  install -d "${pkgdir}/usr/share/applications"
   install -d "${pkgdir}/usr/share/luxcorerender"
+  
   # Switching to extracted dir
   cd "./LuxCore"
+  
   # Executables
   install -m755 luxcoreui "${pkgdir}/usr/bin"
+  
   # Libraries
   install -m644 pyluxcore.so "${pkgdir}/usr/lib"
+  
   # Shared data
   cp -r scenes "${pkgdir}/usr/share/luxcorerender"
   install -m644 AUTHORS.txt "${pkgdir}/usr/share/luxcorerender"
   install -m644 COPYING.txt "${pkgdir}/usr/share/luxcorerender"
   install -m644 README.md "${pkgdir}/usr/share/luxcorerender"
+ 
   # pyluxcoretools
   local _pyLibPath=$(python -c 'from sys import version_info;print("/usr/lib/python{}.{}".format(version_info.major,version_info.minor))')
   install -d "${pkgdir}/$_pyLibPath"
   cp pyluxcoretools.zip "${pkgdir}/$_pyLibPath"
+  
+  # Switch to src dir 
+  cd ..
+  
+  # Icon and desktop file
+  install -m644 luxcorerender.desktop "${pkgdir}/usr/share/applications"
+  install -m644 luxcorerender.png "${pkgdir}/usr/share/luxcorerender"
 }
