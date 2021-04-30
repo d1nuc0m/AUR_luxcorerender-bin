@@ -17,9 +17,7 @@ optdepends=('cuda: for OptiX/CUDA acceleration'
             'ocl-icd: for gpu acceleration'
             'opencl-driver: for OPENCL gpu acceleration'
             'pyside2: for pyluxcoretools gui')
-provides=(luxcorerender=${pkgver})
-conflicts=(luxcorerender)
-replaces=('luxrays')
+provides=(luxcorerender)
 source=("https://github.com/LuxCoreRender/LuxCore/releases/download/luxcorerender_v$pkgver/luxcorerender-v$pkgver-linux64.tar.bz2"
         https://github.com/d1nuc0m/AUR_luxcorerender-bin/blob/main/luxcorerender.desktop
         https://github.com/d1nuc0m/AUR_luxcorerender-bin/blob/main/luxcorerender.png)
