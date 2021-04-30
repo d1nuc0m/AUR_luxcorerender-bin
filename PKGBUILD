@@ -32,18 +32,18 @@ package() {
   cd ..
   cp luxcorerender.desktop ${srcdir}
   cp luxcorerender.png ${srcdir}
-  
-  #Adding Icon and Desktop files
-  cd ${srcdir}
-  install -m644 luxcorerender.desktop "${pkgdir}/usr/share/applications"
-  install -m644 luxcorerender.png "${pkgdir}/usr/share/luxcorerender"
-  
+
   # Creating target directories
   install -d "${pkgdir}/usr/bin"
   install -d "${pkgdir}/usr/lib"
   install -d "${pkgdir}/usr/share/applications"
   install -d "${pkgdir}/usr/share/luxcorerender"
   
+  #Adding Icon and Desktop files
+  cd ${srcdir}
+  install -m644 luxcorerender.desktop "${pkgdir}/usr/share/applications"
+  install -m644 luxcorerender.png "${pkgdir}/usr/share/luxcorerender"
+    
   # CD to LuxCore directory
   cd "${srcdir}/LuxCore"
   
