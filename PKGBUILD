@@ -10,11 +10,13 @@ url="https://luxcorerender.org/"
 license=('Apache')
 #Dependencies checked through "ldd ./luxcoreui", after removing packages which are dependances of other packages in list
 #Maybe there are still redundancies
-depends=(dbus embree gtk3 libcap libglvnd libxxf86vm)
+#openimagedenoise limited because of "libOpenImageDenoise.so.0"
+depends=(dbus embree gtk3 libcap libglvnd libxxf86vm "openimagedenoise<=1.2.4")
 optdepends=('opencl-driver: for OPENCL gpu acceleration'
             'pyside2: for pyluxcoretools gui')
 provides=(luxcorerender)
 conflicts=(luxcorerender)
+replaces=('luxrays')
 backup=()
 options=()
 install=
@@ -27,7 +29,9 @@ sha512sums=('6604794cbafa4c177c975439a5713c10a648c3d842b83374399aec0c9f45517aa36
 
 
 package() {
-  cd "$pkgname-$pkgver"
-
-  make DESTDIR="$pkgdir/" install
+  cd "./LuxCore"
+  install -d "${pkgdir}/usr/bin"
+  install -d "${pkgdir}/usr/lib"
+  install -m755 luxcoreui "${pkgdir}/usr/bin"
+  install -m644 pyluxcore.so "${pkgdir}/usr/lib"
 }
