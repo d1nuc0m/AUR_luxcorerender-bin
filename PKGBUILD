@@ -8,10 +8,10 @@ pkgdesc="Physically correct, unbiased rendering engine (binary version)."
 arch=('x86_64')
 url="https://luxcorerender.org/"
 license=('Apache')
-#Dependencies checked through "ldd ./luxcoreui", after removing packages which are dependances of other packages in list
-#Maybe there are still redundancies
-#openimagedenoise limited because of "libOpenImageDenoise.so.0"
-depends=(dbus embree gtk3 libcap libglvnd libxxf86vm "openimagedenoise<=1.2.4")
+# Dependencies checked through "ldd ./luxcoreui", after redundancies removal and namcap
+# openimagedenoise limited because of "libOpenImageDenoise.so.0"
+# python3 because of pyluxcore
+depends=(embree gtk3 "openimagedenoise<=1.2.4" "python>=3.0")
 optdepends=('opencl-driver: for OPENCL gpu acceleration'
             'pyside2: for pyluxcoretools gui')
 provides=(luxcorerender)
@@ -22,16 +22,30 @@ options=()
 install=
 changelog=
 source=(https://github.com/LuxCoreRender/LuxCore/releases/download/luxcorerender_v$pkgver/luxcorerender-v$pkgver-linux64.tar.bz2)
-#Generated with "updpkgsums"
+# Generated with "updpkgsums"
 md5sums=('2ff6fe396409dbade7dfdbb16a673390')
 sha256sums=('7732a2eecb64cfe3e04699dd048b3b8fb2cefcc3a31aadf3c501789d470e68c1')
 sha512sums=('6604794cbafa4c177c975439a5713c10a648c3d842b83374399aec0c9f45517aa36399cbe1519b64247c2794221a1e7b2e3e1af5e5730d78f129ff25c20eafbf')
 
 
 package() {
-  cd "./LuxCore"
+  # Directories
   install -d "${pkgdir}/usr/bin"
   install -d "${pkgdir}/usr/lib"
+  install -d "${pkgdir}/usr/share/luxcorerender"
+  # Switching to extracted dir
+  cd "./LuxCore"
+  # Executables
   install -m755 luxcoreui "${pkgdir}/usr/bin"
+  # Libraries
   install -m644 pyluxcore.so "${pkgdir}/usr/lib"
+  # Shared data
+  cp -r scenes "${pkgdir}/usr/share/luxcorerender"
+  install -m644 AUTHORS.txt "${pkgdir}/usr/share/luxcorerender"
+  install -m644 COPYING.txt "${pkgdir}/usr/share/luxcorerender"
+  install -m644 README.md "${pkgdir}/usr/share/luxcorerender"
+  # pyluxcoretools
+  local _pyLibPath=$(python -c 'from sys import version_info;print("/usr/lib/python{}.{}".format(version_info.major,version_info.minor))')
+  install -d "${pkgdir}/$_pyLibPath"
+  cp pyluxcoretools.zip "${pkgdir}/$_pyLibPath"
 }
