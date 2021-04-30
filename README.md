@@ -1,3 +1,4 @@
 # AUR_luxcorerender-bin
-Arch Linux AUR files for luxcorerender-bin package. [See here](https://aur.archlinux.org/packages/luxcorerender-bin/)
-Actually not working, this is a work in progress.
+Arch Linux AUR files for luxcorerender-bin package: [see here](https://aur.archlinux.org/packages/luxcorerender-bin/)
+
+Actually it should work but is still under testing before release on AUR
