@@ -1,11 +1,12 @@
 # Maintainer: D1nuc0m <d1nuc0m@protonmail.com>
 # Submitter and previous Maintainer: Oliver Mangold <omgold@dray.be>
 # Thanks to bartus <arch-user-repo@bartus.33mail.com>
-# Made on Artix Linux - Plasma - Runit
-pkgname=luxcorerender-bin
+
+_pkgname=luxcorerender
+pkgname="${_pkgname}-bin"
 pkgver=2.5
 pkgrel=1
-pkgdesc="Physically correct, unbiased rendering engine (binary version)."
+pkgdesc="Physically correct, unbiased rendering engine"
 arch=('x86_64')
 url="https://luxcorerender.org/"
 license=('Apache')
@@ -13,15 +14,15 @@ license=('Apache')
 # openimagedenoise limited because of "libOpenImageDenoise.so.0"
 # python3 because of pyluxcore
 depends=(embree gtk3 "openimagedenoise<=1.2.4" "python>=3.0")
-optdepends=('cuda: for OptiX/CUDA acceleration'
-            'ocl-icd: for gpu acceleration'
-            'opencl-driver: for OPENCL gpu acceleration'
-            'pyside2: for pyluxcoretools gui')
-provides=(luxcorerender)
-source=("https://github.com/LuxCoreRender/LuxCore/releases/download/luxcorerender_v$pkgver/luxcorerender-v$pkgver-linux64.tar.bz2"
-        https://github.com/d1nuc0m/AUR_luxcorerender-bin/blob/main/luxcorerender.desktop
-        https://github.com/d1nuc0m/AUR_luxcorerender-bin/blob/main/luxcorerender.png)
-# Generated with "updpkgsums"
+makedepends=("python>=3.0")
+optdepends=('cuda: OptiX/CUDA acceleration'
+            'ocl-icd: gpu acceleration'
+            'opencl-driver: OPENCL gpu acceleration'
+            'pyside2: pyluxcoretools gui')
+provides=(${_pkgname})
+source=("https://github.com/LuxCoreRender/LuxCore/releases/download/luxcorerender_v${pkgver}/luxcorerender-v${pkgver}-linux64.tar.bz2"
+        "luxcorerender.desktop"
+        "luxcorerender.png")
 md5sums=('2ff6fe396409dbade7dfdbb16a673390'
          'e6dfe782bc042c96a7068b11c975f3b7'
          '91c4662fd5ddc13569b211e0bd9fe32f')
@@ -32,35 +33,19 @@ sha512sums=('6604794cbafa4c177c975439a5713c10a648c3d842b83374399aec0c9f45517aa36
             '42ae2e9e293b71a407bfbadaa9de780b0fb384fa63a384b7dc6814743cafc4bd0edfef6a40c016b0b5c0a5cded60e0fd4bc55fd0a37c5ce8a9521ae577d64a6d'
             'f7b150b1d2a917bdb776e8c748fb7b6e57bddf50ec7181ff6e1b7cf45260d04e863443f8f12089f7161da4ddbca70a37405857a2ab2688f06e063d5ee8dbca8e')
 
-
 package() {
-  # Creating target directories
-  install -d "${pkgdir}/usr/bin"
-  install -d "${pkgdir}/usr/lib"
-  install -d "${pkgdir}/usr/share/applications"
-  install -d "${pkgdir}/usr/share/luxcorerender"
+
+  local pyLibPath=$(python -c 'from sys import version_info;print("/usr/lib/python{}.{}".format(version_info.major,version_info.minor))')
+  local pkgshr="${pkgdir}/usr/share/${_pkgname}"
   
-  #Icon and Desktop files
-  install -m644 luxcorerender.desktop "${pkgdir}/usr/share/applications"
-  install -m644 luxcorerender.png "${pkgdir}/usr/share/luxcorerender"
-    
-  # CD to LuxCore directory
+  install -m 644 -Dt "${pkgdir}/usr/share/applications" luxcorerender.desktop
+  
   cd "${srcdir}/LuxCore"
   
-  # Executables
-  install -m755 luxcoreui "${pkgdir}/usr/bin"
-  
-  # Libraries
-  local _pyLibPath=$(python -c 'from sys import version_info;print("/usr/lib/python{}.{}".format(version_info.major,version_info.minor))')
-  install -d "${pkgdir}/$_pyLibPath"
-  install -m644 pyluxcore.so "${pkgdir}/$_pyLibPath"
-  
-  # pyluxcoretools
-  cp pyluxcoretools.zip "${pkgdir}/usr/lib"
-  
-  # Shared data
-  cp -r scenes "${pkgdir}/usr/share/luxcorerender"
-  install -m644 AUTHORS.txt "${pkgdir}/usr/share/luxcorerender"
-  install -m644 COPYING.txt "${pkgdir}/usr/share/luxcorerender"
-  install -m644 README.md "${pkgdir}/usr/share/luxcorerender"
+  install -m 755 -Dt "${pkgdir}/usr/bin" luxcoreui
+  # FIXME
+  install -m 644 -Dt "${pkgdir}/usr/lib" pyluxcoretools.zip
+  install -m 644 -Dt "${pkgdir}/${pyLibPath}" pyluxcore.so # REALLY ?
+  install -m 644 -Dt "$pkgshr" AUTHORS.txt COPYING.txt README.md "${srcdir}/luxcorerender.png"
+  cp -r scenes "${pkgshr}/"
 }
