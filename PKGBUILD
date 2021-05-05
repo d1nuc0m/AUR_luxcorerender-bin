@@ -1,6 +1,6 @@
 # Maintainer: D1nuc0m <d1nuc0m@protonmail.com>
 # Submitter and previous Maintainer: Oliver Mangold <omgold@dray.be>
-# Thanks to bartus <arch-user-repo@bartus.33mail.com>
+# Thanks to bartus <arch-user-repo@bartus.33mail.com>, qub1750ul <dev.gmasino@pm.me>, Zekromaster <dev@zekromaster.net>
 
 _pkgname=luxcorerender
 pkgname="${_pkgname}-bin"
@@ -12,7 +12,7 @@ url="https://luxcorerender.org/"
 license=('Apache')
 # Dependencies checked through "ldd ./luxcoreui", filtered with namcap
 # openimagedenoise limited because of "libOpenImageDenoise.so.0"
-# python3 because of pyluxcore
+# python3 because of pyluxcore - review, see LC forum
 depends=(embree gtk3 "openimagedenoise<=1.2.4" "python>=3.0")
 makedepends=("python>=3.0")
 optdepends=('cuda: OptiX/CUDA acceleration'
@@ -43,7 +43,7 @@ package() {
   cd "${srcdir}/LuxCore"
   
   install -m 755 -Dt "${pkgdir}/usr/bin" luxcoreui
-  # FIXME
+  # Review after LC forum discussion
   install -m 644 -Dt "${pkgdir}/usr/lib" pyluxcoretools.zip
   install -m 644 -Dt "${pkgdir}/${pyLibPath}" pyluxcore.so # REALLY ?
   install -m 644 -Dt "$pkgshr" AUTHORS.txt COPYING.txt README.md "${srcdir}/luxcorerender.png"
