@@ -3,7 +3,7 @@ Type=Application
 Name=LuxCore UI
 Comment=Physically correct, unbiased rendering engine
 Path=/usr/bin
-Exec=env LD_PRELOAD="/opt/luxcorerender/libOpenImageDenoise.so.0" luxcoreui
+Exec=luxcoreui
 Icon=/usr/share/luxcorerender/luxcorerender.png
 Terminal=true
 Categories=Graphics;

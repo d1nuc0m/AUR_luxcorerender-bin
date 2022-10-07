@@ -4,7 +4,7 @@
 
 _pkgname=luxcorerender
 pkgname="${_pkgname}-bin"
-pkgver=2.5
+pkgver=2.6
 pkgrel=1
 pkgdesc="Physically correct, unbiased rendering engine"
 arch=('x86_64')
@@ -23,18 +23,10 @@ source=("https://github.com/LuxCoreRender/LuxCore/releases/download/luxcorerende
         luxcorerender.desktop
         luxcorerender.png
         pyluxcore.desktop)
-md5sums=('2ff6fe396409dbade7dfdbb16a673390'
-         'f49296352f6ee987e845a5da5c4e1eb8'
-         '2bc4e53b884e27f57f42a642faeb9e12'
-         '501ac7b1457817a31f3cee55b0a5adfb')
-sha256sums=('7732a2eecb64cfe3e04699dd048b3b8fb2cefcc3a31aadf3c501789d470e68c1'
-            'cbbc002ba3c51ea66052b7b7a57f240c8e6f763c1d8840b7566bf254598dc12a'
-            '8dd4def9ff9e0b4c5e2fefaf90822f605ee515b2a886e283f2c32e59320f4c68'
-            '1ff655fa893f5df5c8a32bea65c67f78201433c2736a583637fce2c683bc8d01')
-sha512sums=('6604794cbafa4c177c975439a5713c10a648c3d842b83374399aec0c9f45517aa36399cbe1519b64247c2794221a1e7b2e3e1af5e5730d78f129ff25c20eafbf'
-            'bcd64a558cf68e7fecbda466f816d16dacef6f6192d1a6022b4c77682fcbb0a31485e83678a5709d426a99b31b1b1cd7c24261f631a83f557c90c4e68db13a0a'
-            'e551dd77e54f53179a14e311cd6520717dd9ca3f135a9fbd8f646c35ee70aaf6cdbb3e8b8ea6848877aa26ec7c17ec01b277af71a0da3077e430fc53d6c61e5c'
-            '77beb9054516b80f06b24ea240bfa5059aad0926b4085032d38273ef1867ce91a355339fa7cf6a4b86420db5af5a11fecb002d74fb6fed9ff5616bd4f0ac24fe')
+sha512sums=('177ace570679971fe0184e875e13351d293638fb0cbf28480f0187d796ad0df0f92f9382c7193f28dbb0315aa46ff0f1de72856f23cad4fc9becfcf8e5add0f9'
+            '24341c3d4c989031c3ec405bf5a26693b5f863255b50e917357af609b7a222e704032155bd256e624c653d4906e6f116330a9a48e767c453bf1eb730d08bd64e'
+            '8051deb8edc98d9d48126d323230db83e0c9dd7de826d4da048cbd05b99c73d89d15d6666a81791e9c8165b9d8996692316d66877d2c776d5823a4895ac0a729'
+            '3a447e5266908b3fd0e2a0f4fb72d5cda4286bd07d30eef73be9132b551f5d37fc0506b6923fda7d91ddd7fa1cb2ecaca1072393cb1045ea51472d490c34f8a7')
 
 package() {
 
@@ -45,8 +37,7 @@ package() {
   cd "${srcdir}/LuxCore"
   
   install -m 755 -Dt "${pkgdir}/usr/bin" luxcoreui
-  # Newer versions of Open Image Denoise do not include libOpenImageDenoise.so.0
-  install -m 644 -Dt "${pkgdir}/opt/${_pkgname}" libOpenImageDenoise.so.0 pyluxcore.so pyluxcoretools.zip
+  install -m 644 -Dt "${pkgdir}/opt/${_pkgname}" pyluxcore.so pyluxcoretools.zip
   install -m 644 -Dt "$pkgshr" AUTHORS.txt COPYING.txt README.md "${srcdir}/luxcorerender.png"
   cp -r scenes "${pkgshr}/"
 }
