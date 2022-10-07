@@ -2,7 +2,7 @@
 Arch Linux AUR files for luxcorerender-bin package: [see here](https://aur.archlinux.org/packages/luxcorerender-bin/)
 
 ## Status
-Current status: pre alpha
+Current status: alpha
 
 | Component | Status | Notes |
 | --- | --- | --- |
@@ -16,11 +16,11 @@ Current status: pre alpha
 ### Alpha
 - [x] Application Menu entries
 - [x] LuxCoreUI
-- [ ] Safely manage [Open Image Denoise dependancy](https://forums.luxcorerender.org/viewtopic.php?f=4&t=3533) (memo, LD_PRELOAD)
+- [x] Safely manage [Open Image Denoise dependancy](https://forums.luxcorerender.org/viewtopic.php?f=4&t=3533)
 
 ## Beta
 - [ ] Split package for SDK
-- [ ] PyLuxCoreTools properly packaged
+- [x] PyLuxCoreTools properly packaged
 
 ### Stable
 - [x] Application Menu Entries
